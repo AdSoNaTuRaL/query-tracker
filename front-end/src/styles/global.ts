@@ -25,7 +25,7 @@ export default createGlobalStyle`
 
     #root {
       max-width: 960px;
-      margin: 0 auto;
+      margin: 0 200px;
       padding: 40px 20px;
     }
 `;
