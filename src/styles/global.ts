@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import bd from '../assets/bd.svg';
+
 export default createGlobalStyle`
     * {
         margin: 0;
@@ -9,15 +11,21 @@ export default createGlobalStyle`
     }
 
     body {
-        background: #ffffe0;
-        color: #fff;
+        background: #212426 url(${bd}) no-repeat 70% top;
+        --webkit-font-smoothing: antialised;
     }
 
-    h1, h2, h3, h4, h5, h6, strong {
-        font-weight: 500;
+    body, select, textarea, button {
+      font: 16px Roboto, sans-serif;
     }
 
     button {
         cursor: pointer;
+    }
+
+    #root {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
     }
 `;
