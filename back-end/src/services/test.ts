@@ -5,6 +5,10 @@ interface IQuery {
   query: string;
 }
 
+interface ICallback {
+  (message: string | undefined, affected?: number, changed?: number): void;
+}
+
 function insertQuery(
   { author, query }: IQuery,
   error: number,
@@ -19,26 +23,17 @@ function insertQuery(
 function executeQuery(
   { author, query }: IQuery,
   conn: mysql.Connection,
-): string {
-  let message: string | undefined = '';
-  // create connection with DB
-  console.log('💠 DB Connected');
-
+  callback: ICallback,
+): void {
   // execute statement from post
-  conn.query(query, (err, result) => {
+  conn.query(query, (err, results) => {
     if (err) {
       insertQuery({ author, query }, 0, conn);
-
-      message = err.sqlMessage;
-      console.log('sql message error is :', err.sqlMessage);
-    } else {
-      insertQuery({ author, query }, 1, conn);
-      message = result.message;
-      console.log('sql message success is :', result.message);
+      return callback(err.sqlMessage);
     }
+    insertQuery({ author, query }, 1, conn);
+    return callback(results.message, results.affectedRows, results.changedRows);
   });
-
-  return message;
 }
 
 export default executeQuery;
