@@ -2,8 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 import cors from 'cors';
 import config from './config/db';
-import test from './services/test';
-// import routes from './routes';
+import ExecuteQuery from './services/ExecuteQuery';
 
 const app = express();
 app.use(express.json());
@@ -13,21 +12,36 @@ app.get('/', (_, res) => {
   return res.json({ message: 'Hello World' });
 });
 
+// eslint-disable-next-line consistent-return
 app.post('/query', (req, res) => {
   const { author, query } = req.body;
 
-  try {
-    if (author && query) {
-      const connection = mysql.createConnection(config);
+  if (author && query) {
+    const connection = mysql.createConnection(config);
 
-      test({ author, query }, connection, result => {
-        return res.json(result);
-      });
-    } else {
-      return res.status(400).json({ error: 'Invalid parameters' });
-    }
-  } catch (err) {
-    return res.status(400).json({ error: err.message });
+    ExecuteQuery(
+      { author, query },
+      connection,
+      (error, message, affected, changed) => {
+        if (error === 1) {
+          return res.status(400).json({
+            error,
+            mensaje: message,
+            affectedRows: affected,
+            changedRows: changed,
+          });
+        }
+
+        return res.json({
+          error,
+          mensaje: message,
+          affectedRows: affected,
+          changedRows: changed,
+        });
+      },
+    );
+  } else {
+    return res.status(400).json({ error: 'Invalid parameters' });
   }
 });
 
