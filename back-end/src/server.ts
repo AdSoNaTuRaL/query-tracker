@@ -15,6 +15,7 @@ app.get('/', (_, res) => {
 // eslint-disable-next-line consistent-return
 app.post('/query', (req, res) => {
   const { author, query } = req.body;
+  console.log(author, query);
 
   if (author && query) {
     const connection = mysql.createConnection(config);
@@ -23,15 +24,6 @@ app.post('/query', (req, res) => {
       { author, query },
       connection,
       (error, message, affected, changed) => {
-        if (error === 1) {
-          return res.status(400).json({
-            error,
-            mensaje: message,
-            affectedRows: affected,
-            changedRows: changed,
-          });
-        }
-
         return res.json({
           error,
           mensaje: message,
