@@ -1,23 +1,37 @@
 import React, { FormEvent, useState } from 'react';
-// import { FiAlertCircle, FiXCircle } from 'react-icons/fi';
-import { Title, Form /* Container, Toast */ } from './styles';
+import { FiAlertCircle, FiXCircle } from 'react-icons/fi';
+import { Title, Form, Container, Toast } from './styles';
 
 import logo from '../../assets/logo.png';
 import api from '../../services/api';
 
+interface IFeedback {
+  error: number;
+  mensaje: string;
+  affectedRows?: number;
+  changedRows?: number;
+}
+
 const QueryExecute: React.FC = () => {
   const [author, setAuthor] = useState('');
   const [query, setQuery] = useState('');
+
+  const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     event.preventDefault();
 
-    await api.post('query', {
+    const response = await api.post<IFeedback>('query', {
       author,
       query,
     });
+
+    const feedback = response.data;
+
+    setFeedbacks([...feedbacks, feedback]);
+    setQuery('');
   }
 
   return (
@@ -29,7 +43,7 @@ const QueryExecute: React.FC = () => {
         <select
           name="author"
           id="author"
-          value={author}
+          defaultValue="none"
           onChange={e => setAuthor(e.target.value)}
         >
           <option value="none" disabled>
@@ -48,45 +62,38 @@ const QueryExecute: React.FC = () => {
         />
         <button type="submit">Ejecutar</button>
       </Form>
-      {/* <Container>
-        <Toast type="info" hasDescription>
-          <FiAlertCircle size={20} />
+      <Container>
+        {feedbacks.map(feedback => (
+          <Toast
+            key={feedback.error}
+            type={feedback.error === 1 ? 'error' : 'success'}
+            hasDescription
+          >
+            <FiAlertCircle size={20} />
 
-          <div>
-            <strong>Information</strong>
-            <p>Ha algum problema com sua query</p>
-          </div>
+            <div>
+              <strong>{feedback.error === 1 ? 'Error' : 'Success'}</strong>
+              <p>{feedback.mensaje}</p>
+              {feedback.changedRows && (
+                <p>
+                  Changed Rows:
+                  {feedback.changedRows}
+                </p>
+              )}
+              {feedback.affectedRows && (
+                <p>
+                  Affected Rows:
+                  {feedback.affectedRows}
+                </p>
+              )}
+            </div>
 
-          <button type="button">
-            <FiXCircle size={18} />
-          </button>
-        </Toast>
-
-        <Toast type="success" hasDescription={false}>
-          <FiAlertCircle size={20} />
-
-          <div>
-            <strong>Success</strong>
-          </div>
-
-          <button type="button">
-            <FiXCircle size={18} />
-          </button>
-        </Toast>
-
-        <Toast type="error" hasDescription>
-          <FiAlertCircle size={20} />
-
-          <div>
-            <strong>Error</strong>
-            <p>Sua query nao foi executada</p>
-          </div>
-
-          <button type="button">
-            <FiXCircle size={18} />
-          </button>
-        </Toast>
-      </Container> */}
+            <button type="button">
+              <FiXCircle size={18} />
+            </button>
+          </Toast>
+        ))}
+      </Container>
     </>
   );
 };
