@@ -6,6 +6,10 @@ interface ToastProps {
   hasDescription: boolean;
 }
 
+interface FormProps {
+  hasError: boolean;
+}
+
 export const Title = styled.h1`
   font-size: 48px;
   color: #7f898e;
@@ -15,7 +19,7 @@ export const Title = styled.h1`
   margin-top: 80px;
 `;
 
-export const Form = styled.form`
+export const Form = styled.form<FormProps>`
   margin-top: 40px;
   max-width: 800px;
 
@@ -39,6 +43,13 @@ export const Form = styled.form`
     margin-bottom: 8px;
     resize: vertical;
     width: 80%;
+    border: 2px solid #fff;
+
+    ${props =>
+      props.hasError &&
+      css`
+        border-color: #c53030;
+      `}
   }
 
   button {
@@ -54,6 +65,12 @@ export const Form = styled.form`
       background: ${shade(0.2, '#ffdb00')};
     }
   }
+`;
+
+export const Error = styled.span`
+  display: block;
+  color: #c53030;
+  margin-top: 8px;
 `;
 
 export const Container = styled.div`

@@ -1,11 +1,12 @@
 import React, { FormEvent, useState } from 'react';
 import { FiAlertCircle, FiXCircle } from 'react-icons/fi';
-import { Title, Form, Container, Toast } from './styles';
+import { Title, Form, Container, Toast, Error } from './styles';
 
 import logo from '../../assets/logo.png';
 import api from '../../services/api';
 
 interface IFeedback {
+  id: string;
   error: number;
   mensaje: string;
   affectedRows?: number;
@@ -15,23 +16,38 @@ interface IFeedback {
 const QueryExecute: React.FC = () => {
   const [author, setAuthor] = useState('');
   const [query, setQuery] = useState('');
+  const [inputError, setInputError] = useState('');
 
   const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
+
+  function handleRemoveToast(id: string): void {
+    setFeedbacks(state => state.filter(feedback => feedback.id !== id));
+  }
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     event.preventDefault();
 
-    const response = await api.post<IFeedback>('query', {
-      author,
-      query,
-    });
+    if (!query) {
+      setInputError('Escribe la query');
+      return;
+    }
 
-    const feedback = response.data;
+    try {
+      const response = await api.post<IFeedback>('query', {
+        author,
+        query,
+      });
 
-    setFeedbacks([...feedbacks, feedback]);
-    setQuery('');
+      const feedback = response.data;
+
+      setFeedbacks([...feedbacks, feedback]);
+      setQuery('');
+      setInputError('');
+    } catch (err) {
+      setInputError(err.message);
+    }
   }
 
   return (
@@ -39,7 +55,7 @@ const QueryExecute: React.FC = () => {
       <img src={logo} alt="Ahimas Logo" />
       <Title>Elija el nombre y ejecute la query</Title>
 
-      <Form id="query-form" onSubmit={handleSubmit}>
+      <Form hasError={!!inputError} id="query-form" onSubmit={handleSubmit}>
         <select
           name="author"
           id="author"
@@ -62,10 +78,13 @@ const QueryExecute: React.FC = () => {
         />
         <button type="submit">Ejecutar</button>
       </Form>
+
+      {inputError && <Error>{inputError}</Error>}
+
       <Container>
         {feedbacks.map(feedback => (
           <Toast
-            key={feedback.error}
+            key={feedback.id}
             type={feedback.error === 1 ? 'error' : 'success'}
             hasDescription
           >
@@ -88,7 +107,10 @@ const QueryExecute: React.FC = () => {
               )}
             </div>
 
-            <button type="button">
+            <button
+              onClick={() => handleRemoveToast(feedback.id)}
+              type="button"
+            >
               <FiXCircle size={18} />
             </button>
           </Toast>

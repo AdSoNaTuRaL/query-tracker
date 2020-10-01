@@ -1,6 +1,7 @@
 import express from 'express';
 import mysql from 'mysql';
 import cors from 'cors';
+import { v4 } from 'uuidv4';
 import config from './config/db';
 import ExecuteQuery from './services/ExecuteQuery';
 
@@ -24,6 +25,7 @@ app.post('/query', (req, res) => {
       connection,
       (error, message, affected, changed) => {
         return res.json({
+          id: v4(),
           error,
           mensaje: message,
           affectedRows: affected,
