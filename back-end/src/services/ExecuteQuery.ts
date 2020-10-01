@@ -33,10 +33,10 @@ function executeQuery(
   // execute statement from post
   conn.query(query, (err, results) => {
     if (err) {
-      insertQuery({ author, query }, 0, conn);
+      insertQuery({ author, query }, 1, conn);
       return callback(1, err.sqlMessage);
     }
-    insertQuery({ author, query }, 1, conn);
+    insertQuery({ author, query }, 0, conn);
     return callback(
       0,
       'Query lanzada con sucesso',
