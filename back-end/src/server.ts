@@ -1,7 +1,7 @@
 import express from 'express';
 import mysql from 'mysql';
 import cors from 'cors';
-import { v4 } from 'uuidv4';
+import { v4 } from 'uuid';
 import config from './config/db';
 import ExecuteQuery from './services/ExecuteQuery';
 
