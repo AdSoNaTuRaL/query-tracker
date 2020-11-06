@@ -62,7 +62,7 @@ $ git clone https://github.com/AdSoNaTuRaL/query-tracker.git
 $ cd query-tracker/back-end
 
 # Install Dependencies
-$ yarn install
+$ yarn
 
 # Run Aplication
 $ yarn dev:server
