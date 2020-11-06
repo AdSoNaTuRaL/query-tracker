@@ -76,7 +76,7 @@ Access API at http://localhost:3333/
 $ cd query-tracker/front-end
 
 # Install Dependencies
-$ yarn install
+$ yarn
 
 # Run Aplication
 $ yarn start
