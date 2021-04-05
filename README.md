@@ -2,12 +2,6 @@
 
 <p align="center">:rocket: Project made for the company <a href="https://www.ahimas.es/">Ahí+</a> who I am currently interning (10/8/2020) </p>
 
-<div align="center">
-  <sub>Query Tracker project. Built with ❤︎ by
-    <a href="https://github.com/AdSoNaTuRaL">Adson Henrique</a>
-  </sub>
-</div>
-
 <br>
 
 # :pushpin: Table of Contents
