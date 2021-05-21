@@ -1,6 +1,6 @@
 <h1 align="center">Query Tracker</h1>
 
-<p align="center">:rocket: Project made for the company <a href="https://www.ahimas.es/">Ahí+</a> who I am currently interning (10/8/2020) </p>
+<p align="center">:rocket: Project made for the company <a href="https://www.ahimas.es/">Ahí+</a></p>
 
 <br>
 
