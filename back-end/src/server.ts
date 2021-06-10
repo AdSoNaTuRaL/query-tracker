@@ -15,13 +15,13 @@ app.get('/', (_, res) => {
 
 // eslint-disable-next-line consistent-return
 app.post('/query', (req, res) => {
-  const { author, query } = req.body;
+  const { author, text } = req.body;
 
-  if (author && query) {
+  if (author && text) {
     const connection = mysql.createConnection(config);
 
     ExecuteQuery(
-      { author, query },
+      { author, text },
       connection,
       (error, message, affected, changed) => {
         return res.json({
