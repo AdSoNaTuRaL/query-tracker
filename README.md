@@ -1,12 +1,6 @@
 <h1 align="center">Query Tracker</h1>
 
-<p align="center">:rocket: Project made for the company <a href="https://www.ahimas.es/">Ahí+</a> who I am currently interning (10/8/2020) </p>
-
-<div align="center">
-  <sub>Query Tracker project. Built with ❤︎ by
-    <a href="https://github.com/AdSoNaTuRaL">Adson Henrique</a>
-  </sub>
-</div>
+<p align="center">:rocket: Project made for the company <a href="https://www.ahimas.es/">Ahí+</a></p>
 
 <br>
 
@@ -85,4 +79,4 @@ Go to http://localhost:3000/ to see the result.
 
 # :bug: Issues
 
-Feel free to **file a new issue** with a respective title and description on the [query-tracker](https://github.com/AdSoNaTuRaL/query-tracker/issues) repository. If you already found a solution to your problem, **I would love to review your pull request**!
+Feel free to **create a new issue** with a respective title and description on the [query-tracker](https://github.com/AdSoNaTuRaL/query-tracker/issues) repository. If you already found a solution to your problem, **I would love to review your pull request**!
